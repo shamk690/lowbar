@@ -21,6 +21,7 @@ _.uniq = array => {
   }
   return result;
 };
+
 _.map = (array, func = x => x) => {
   let arr = [];
 
@@ -29,5 +30,10 @@ _.map = (array, func = x => x) => {
   });
 
   return arr;
-}
+};
+
+_.filter = (array, string) => {
+  if (array == string) return array;
+  else return [];
+};
 module.exports = _;
