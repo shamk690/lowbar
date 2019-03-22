@@ -32,8 +32,13 @@ _.map = (array, func = x => x) => {
   return arr;
 };
 
-_.filter = (array, string) => {
-  if (array == string) return array;
-  else return [];
+_.filter = (array, func = x => x) => {
+  let result = array.map(x => {
+    if (func(x, 0, array)) {
+      return x;
+    }
+  });
+
+  return result.slice(0, result.indexOf(undefined));
 };
 module.exports = _;

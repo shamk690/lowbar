@@ -80,13 +80,42 @@ describe('#map', () => {
 
 describe.only('#filter', () => {
   it('returns an array', () => {
-    expect(_.filter([])).to.eql([]);
+    let array = [true];
+    expect(_.filter(array)).to.be.an('array');
   });
-  it('filters array', () => {
-    let array = ['hello'];
-    let string = 'hello';
-    let string2 = 'world';
-    expect(_.filter(array, string)).to.eql(['hello']);
-    expect(_.filter(array, string2)).to.eql([]);
+  it('returns a new array', () => {
+    let array = [true];
+    expect(_.filter(array)).to.not.equal(array);
+  });
+
+  it('runs predicate funtion tfor a value', () => {
+    let array = ['rob'];
+    let func = spy();
+    _.filter(array, func);
+    expect(func.callCount).to.eql(1);
+  });
+  it('invokes the itteree with array item index and whole array', () => {
+    let func = spy();
+    let array = ['rob'];
+    _.filter(array, func);
+    expect(func.args[0]).to.eql(['rob', 0, array]);
+  });
+  it('works with multiple value array', () => {
+    let func = spy();
+    let array = ['rob', 'mitch', 'tom'];
+    _.filter(array, func);
+    expect(func.callCount).to.eql(array.length);
+  });
+  it('works with multiple value array', () => {
+    let func = spy(x => x === 'rob');
+    let array = ['rob', 'mitch', 'tom'];
+    _.filter(array, func);
+    expect(_.filter(array, func)).to.eql(['rob']);
+  });
+  it('works with multiple value array', () => {
+    let func = spy(x => x.toString().includes('rob'));
+    let array = [{ name: 'rob' }, { name: 'mitch' }, { name: 'tom' }];
+    _.filter(array, func);
+    expect(_.filter(array, func)).to.eql([{ name: 'rob' }]);
   });
 });
