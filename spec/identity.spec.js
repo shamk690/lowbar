@@ -112,8 +112,8 @@ describe.only('#filter', () => {
     _.filter(array, func);
     expect(_.filter(array, func)).to.eql(['rob']);
   });
-  it('works with multiple value array', () => {
-    let func = spy(x => x.toString().includes('rob'));
+  it('works with multiple value object', () => {
+    let func = spy(x => JSON.stringify(x).includes('rob'));
     let array = [{ name: 'rob' }, { name: 'mitch' }, { name: 'tom' }];
     _.filter(array, func);
     expect(_.filter(array, func)).to.eql([{ name: 'rob' }]);
