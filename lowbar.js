@@ -21,4 +21,13 @@ _.uniq = array => {
   }
   return result;
 };
+_.map = (array, func = x => x) => {
+  let arr = [];
+
+  array.forEach(element => {
+    arr.push(func(element));
+  });
+
+  return arr;
+}
 module.exports = _;

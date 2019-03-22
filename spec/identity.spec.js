@@ -1,6 +1,7 @@
 const { expect } = require('chai');
 
 const _ = require('../lowbar');
+const { spy } = require('sinon');
 
 describe('#identity', () => {
   it('returns the value passed as an argument', () => {
@@ -27,13 +28,47 @@ describe('#take', () => {
     expect(_.take([1, 2, 3], 5)).to.eql([1, 2, 3]);
   });
 });
-describe.only('#uniq', () => {
+describe('#uniq', () => {
   it('returns single item array', () => {
-    expect([3]).to.eql([3]);
-    expect(['hello']).to.eql(['hello']);
-    expect([true]).to.eql([true]);
+    expect(_.uniq([3])).to.eql([3]);
+    expect(_.uniq(['hello'])).to.eql(['hello']);
+    expect(_.uniq([true])).to.eql([true]);
   });
   it('filters out repeat values', () => {
     expect(_.uniq([1, 1])).to.eql([1]);
+    expect(_.uniq([1, 1, 2, 3, 3])).to.eql([1, 2, 3]);
+  });
+  it('filters out the repeat string', () => {
+    expect(_.uniq(['Hello', 'Hello'])).to.eql(['Hello']);
+    expect(_.uniq(['Red', 'Green', 'Red', 'Blue', 'Green'])).to.eql(['Red', 'Green', 'Blue']);
+  });
+});
+describe('#map', () => {
+  it('It takes an empty array and returns the empty array', () => {
+    expect(_.map([])).to.eql([]);
+  });
+  it('create a new array with value and one argument', () => {
+    expect(_.map(['hello'])).to.eql(['hello']);
+    expect(_.map([true])).to.eql([true]);
+    expect(_.map([1])).to.eql([1]);
+
+  });
+  it('create a new array with multiple values and one argument', () => {
+    expect(_.map(['hello', 'World'])).to.eql(['hello', 'World']);
+    expect(_.map([1, 3, 2, 6, 5])).to.eql([1, 3, 2, 6, 5]);
+  });
+  it('It checks if spy function runs', () => {
+    let spyFunction = spy();
+    let arr = [1];
+    _.map(arr, spyFunction);
+
+    expect(spyFunction.callCount).to.eql(1);
+  });
+  it('It checks the number of times spy function runs', () => {
+    let spyFunction = spy();
+    let arr = [1, 2, 3];
+    _.map(arr, spyFunction);
+
+    expect(spyFunction.callCount).to.eql(3);
   });
 });
